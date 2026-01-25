@@ -1,10 +1,48 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+  <style>
+    h1{
+      font-size: 24px;
+    }
+
+    .list{
+      width: auto;
+      max-width: 300px;
+      list-style-type: none; /* Убирает точки, если они не нужны */
+      padding: 0;
+    }
+
+    .list__item{
+      font-size: 18px;
+      color: white;
+      width: auto;
+      cursor: pointer;
+      margin-bottom: 10px;   /* Расстояние между строками */
+    }
+
+    input {
+      width: 100%;           /* Чтобы все инпуты были одинаковой ширины */
+      box-sizing: border-box; /* Чтобы рамки не вылезали за края */
+    }
+  </style>
 </head>
 <body>
-Test
+<div class="conteiner">
+  <h1>To do list</h1>
+  <ul class="list">
+    <li class="list__item">
+      <input type="text" placeholder="Введите задачу">
+    </li>
+  </ul>
+  <button class="btn">Добавить</button>
+</div>
+
+<script src="index.js"></script>
 </body>
 </html>
