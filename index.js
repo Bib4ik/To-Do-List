@@ -11,9 +11,8 @@ btn.addEventListener('click', () => {
     input.type = 'text';
     input.placeholder = 'Введите задачу';
 
-    const crest  = document.createElement('img');
+    const crest  = document.createElement('button');
     crest.className = 'close';
-    crest.src = '/close-btn.png';
 
     newItem.appendChild(input);
     newItem.appendChild(crest);

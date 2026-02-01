@@ -9,6 +9,7 @@
   <style>
     h1{
       font-size: 24px;
+        color: white;
     }
 
     .list{
@@ -22,7 +23,7 @@
         display: flex;
       font-size: 18px;
       color: white;
-      width: auto;
+        width: auto;
       cursor: pointer;
       margin-bottom: 10px;   /* Расстояние между строками */
     }
@@ -30,25 +31,102 @@
     input {
       width: 100%;           /* Чтобы все инпуты были одинаковой ширины */
       box-sizing: border-box; /* Чтобы рамки не вылезали за края */
+
+        background-color: #0d1117;
+        color: white;
+        border: 2px solid rgba(255, 255, 255, 0.25);  /* полупрозрачная белая граница */
+        border-radius: 25px;                           /* скругление — делает кнопку "таблеткой" */
+        padding: 10px 30px;                            /* отступы внутри кнопки */
+        font-size: 16px;
+        cursor: pointer;
     }
 
     .close{
-        width: 15px;
-        height: 15px;
+        width: 25px;
+        height: 25px;
         /*padding-top: 5px;*/
         margin-top: 4px;
         margin-left: 10px;
     }
 
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;      /* высота на всю страницу */
+    }
+
+    body{
+        background-color: #0d1117 ;
+    }
+
+    .btn {
+        background-color: #0d1117;
+        color: white;
+        border: 2px solid rgba(255, 255, 255, 0.25);  /* полупрозрачная белая граница */
+        border-radius: 25px;                           /* скругление — делает кнопку "таблеткой" */
+        padding: 10px 30px;                            /* отступы внутри кнопки */
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .btn:hover {
+        background-color: white;
+        color: #0d1117;
+    }
+
+    .close {
+        width: 25px;
+        height: 25px;
+        margin-top: 8px;
+        margin-left: 2px;
+        filter: drop-shadow(0 0 2px black) drop-shadow(0 0 2px black);
+        position: relative;
+        cursor: pointer;
+        background: none;
+        border: none;
+        border-radius: 50%;                             /* круглая форма */
+        transition: background-color 0.3s, color 0.3s; /* плавный переход */
+    }
+
+    .close:hover {
+        background-color: white;
+    }
+
+    .close:hover::before,
+    .close:hover::after {
+        background-color: #0d1117;                      /* палочки темнеют при наведении */
+    }
+
+    .close::before,
+    .close::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 18px;
+        height: 2px;
+        background-color: white;
+    }
+
+    .close::before {
+        transform: translate(-50%, -50%) rotate(45deg);   /* одна палочка по диагонали */
+    }
+
+    .close::after {
+        transform: translate(-50%, -50%) rotate(-45deg);  /* вторая палочка по другой диагонали */
+    }
+
   </style>
 </head>
 <body>
-<div class="conteiner">
+<div class="container">
   <h1>To do list</h1>
         <ul class="list">
             <li class="list__item">
                 <input type="text" placeholder="Введите задачу">
-                <img class="close"  src="/close-btn.png" alt="">
+                <button class="close"></button>
             </li>
         </ul>
 
