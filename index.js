@@ -11,8 +11,13 @@ btn.addEventListener('click', () => {
     input.type = 'text';
     input.placeholder = 'Введите задачу';
 
+    const crest  = document.createElement('img');
+    crest.className = 'close';
+    crest.src = '/close-btn.png';
+
+    newItem.appendChild(input);
+    newItem.appendChild(crest);
     list.appendChild(newItem);
-    list.appendChild(input);
 });
 
 

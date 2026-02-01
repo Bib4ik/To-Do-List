@@ -19,6 +19,7 @@
     }
 
     .list__item{
+        display: flex;
       font-size: 18px;
       color: white;
       width: auto;
@@ -30,16 +31,27 @@
       width: 100%;           /* Чтобы все инпуты были одинаковой ширины */
       box-sizing: border-box; /* Чтобы рамки не вылезали за края */
     }
+
+    .close{
+        width: 15px;
+        height: 15px;
+        /*padding-top: 5px;*/
+        margin-top: 4px;
+        margin-left: 10px;
+    }
+
   </style>
 </head>
 <body>
 <div class="conteiner">
   <h1>To do list</h1>
-  <ul class="list">
-    <li class="list__item">
-      <input type="text" placeholder="Введите задачу">
-    </li>
-  </ul>
+        <ul class="list">
+            <li class="list__item">
+                <input type="text" placeholder="Введите задачу">
+                <img class="close"  src="/close-btn.png" alt="">
+            </li>
+        </ul>
+
   <button class="btn">Добавить</button>
 </div>
 
