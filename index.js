@@ -20,4 +20,9 @@ btn.addEventListener('click', () => {
     list.appendChild(newItem);
 });
 
+list.addEventListener('click', (e) => {
+    if (e.target.classList.contains('close')) {
+        e.target.closest('.list__item').remove();
+    }
+});
 
