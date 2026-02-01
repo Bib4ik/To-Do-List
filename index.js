@@ -1,62 +1,122 @@
 const list = document.querySelector('.list');
 const btn = document.querySelector('.btn');
+const filterBtns = document.querySelectorAll('.filter-btn');
+
+let currentFilter = 'all';
 
 // Загрузка сохранённых задач при открытии страницы
 function loadTasks() {
+    // теперь каждая задача — объект { text, done }
     const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
-    // Очищаем список, кроме первой пустой строки
     list.innerHTML = '';
 
-    // Если есть сохранённые задачи — создаём элементы
     if (tasks.length > 0) {
-        tasks.forEach(text => {
-            createItem(text);
+        tasks.forEach(task => {
+            // поддержка старого формата (просто строка)
+            if (typeof task === 'string') {
+                createItem(task, false);
+            } else {
+                createItem(task.text, task.done);
+            }
         });
     }
 
+    applyFilter();
 }
 
 // Создаём элемент списка
-function createItem(text) {
+function createItem(text, done = false) {
     const newItem = document.createElement('li');
-    newItem.className = 'list__item';
+    newItem.className = 'list__item' + (done ? ' done' : '');
 
+    // чекбокс
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.className = 'checkbox';
+    checkbox.checked = done;
+
+    checkbox.addEventListener('change', () => {
+        newItem.classList.toggle('done', checkbox.checked);
+        saveTasks();
+        applyFilter();
+    });
+
+    // текстовый инпут
     const input = document.createElement('input');
     input.type = 'text';
     input.placeholder = 'Введите задачу';
     input.value = text;
 
-    // Сохраняем при каждом изменении текста в инпуте
     input.addEventListener('input', () => {
         saveTasks();
     });
 
+    // кнопка удаления
     const crest = document.createElement('button');
     crest.className = 'close';
 
+    newItem.appendChild(checkbox);
     newItem.appendChild(input);
     newItem.appendChild(crest);
     list.appendChild(newItem);
 }
 
-// Собираем текст из всех инпутов и сохраняем в localStorage
+// Собираем данные из всех элементов и сохраняем в localStorage
 function saveTasks() {
-    const inputs = list.querySelectorAll('input');
+    const items = list.querySelectorAll('.list__item');
     const tasks = [];
 
-    inputs.forEach(input => {
+    items.forEach(item => {
+        const input = item.querySelector('input[type="text"]');
+        const checkbox = item.querySelector('.checkbox');
+
         if (input.value.trim() !== '') {
-            tasks.push(input.value);
+            tasks.push({
+                text: input.value,
+                done: checkbox.checked
+            });
         }
     });
 
     localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
+// Применяем текущий фильтр: показываем / скрываем элементы
+function applyFilter() {
+    const items = list.querySelectorAll('.list__item');
+
+    items.forEach(item => {
+        const isDone = item.classList.contains('done');
+
+        if (currentFilter === 'all') {
+            item.style.display = '';          // показать
+        } else if (currentFilter === 'done') {
+            item.style.display = isDone ? '' : 'none';
+        }
+    });
+}
+
+// Переключение фильтра
+filterBtns.forEach(filterBtn => {
+    filterBtn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        filterBtn.classList.add('active');
+
+        currentFilter = filterBtn.dataset.filter;
+        applyFilter();
+    });
+});
+
 // Добавить новый пустой input
 btn.addEventListener('click', () => {
+    // при добавлении переключаем фильтр на "Все", чтобы новый элемент был виден
+    currentFilter = 'all';
+    filterBtns.forEach(b => b.classList.remove('active'));
+    document.querySelector('[data-filter="all"]').classList.add('active');
+
     createItem('');
+    applyFilter();
 });
 
 // Удаление элемента и сохранение после удаления

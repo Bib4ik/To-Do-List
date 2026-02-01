@@ -6,125 +6,200 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-  <style>
-    h1{
-      font-size: 24px;
-        color: white;
-    }
+    <style>
+        h1{
+            font-size: 24px;
+            color: white;
+        }
 
-    .list{
-      width: auto;
-      max-width: 300px;
-      list-style-type: none; /* Убирает точки, если они не нужны */
-      padding: 0;
-    }
+        .list{
+            width: auto;
+            max-width: 300px;
+            list-style-type: none;
+            padding: 0;
+        }
 
-    .list__item{
-        display: flex;
-      font-size: 18px;
-      color: white;
-        width: auto;
-      cursor: pointer;
-      margin-bottom: 10px;   /* Расстояние между строками */
-    }
+        .list__item{
+            display: flex;
+            font-size: 18px;
+            color: white;
+            width: auto;
+            cursor: pointer;
+            margin-bottom: 10px;
+            align-items: center;
+        }
 
-    input {
-      width: 100%;           /* Чтобы все инпуты были одинаковой ширины */
-      box-sizing: border-box; /* Чтобы рамки не вылезали за края */
+        /* скрываем родной чекбокс */
+        .checkbox {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 16px;
+            min-width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            border-radius: 6px;
+            background-color: #0d1117;
+            cursor: pointer;
+            margin-right: 10px;
+            position: relative;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
 
-        background-color: #0d1117;
-        color: white;
-        border: 2px solid rgba(255, 255, 255, 0.25);  /* полупрозрачная белая граница */
-        border-radius: 25px;                           /* скругление — делает кнопку "таблеткой" */
-        padding: 10px 30px;                            /* отступы внутри кнопки */
-        font-size: 16px;
-        cursor: pointer;
-    }
+        .checkbox:checked {
+            background-color: white;
+            border-color: white;
+        }
 
-    .close{
-        width: 25px;
-        height: 25px;
-        /*padding-top: 5px;*/
-        margin-top: 4px;
-        margin-left: 10px;
-    }
+        /* галочка внутри */
+        .checkbox:checked::after {
+            content: '';
+            position: absolute;
+            left: 3px;
+            top: 1px;
+            width: 4px;
+            height: 8px;
+            border: solid #0d1117;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
 
-    .container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        min-height: 100vh;      /* высота на всю страницу */
-    }
+        /* зачёркивание текста при выполнении */
+        .list__item.done input {
+            text-decoration: line-through;
+            opacity: 0.5;
+        }
 
-    body{
-        background-color: #0d1117 ;
-    }
+        input {
+            width: 100%;
+            box-sizing: border-box;
+            background-color: #0d1117;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            border-radius: 25px;
+            padding: 10px 30px;
+            font-size: 16px;
+            cursor: pointer;
+        }
 
-    .btn {
-        background-color: #0d1117;
-        color: white;
-        border: 2px solid rgba(255, 255, 255, 0.25);  /* полупрозрачная белая граница */
-        border-radius: 25px;                           /* скругление — делает кнопку "таблеткой" */
-        padding: 10px 30px;                            /* отступы внутри кнопки */
-        font-size: 16px;
-        cursor: pointer;
-    }
+        .close{
+            width: 25px;
+            height: 25px;
+            margin-top: 4px;
+            margin-left: 10px;
+        }
 
-    .btn:hover {
-        background-color: white;
-        color: #0d1117;
-    }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
 
-    .close {
-        width: 25px;
-        height: 25px;
-        margin-top: 8px;
-        margin-left: 2px;
-        filter: drop-shadow(0 0 2px black) drop-shadow(0 0 2px black);
-        position: relative;
-        cursor: pointer;
-        background: none;
-        border: none;
-        border-radius: 50%;                             /* круглая форма */
-        transition: background-color 0.3s, color 0.3s; /* плавный переход */
-    }
+        body{
+            background-color: #0d1117 ;
+        }
 
-    .close:hover {
-        background-color: white;
-    }
+        .btn {
+            background-color: #0d1117;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            border-radius: 25px;
+            padding: 10px 30px;
+            font-size: 16px;
+            cursor: pointer;
+        }
 
-    .close:hover::before,
-    .close:hover::after {
-        background-color: #0d1117;                      /* палочки темнеют при наведении */
-    }
+        .btn:hover {
+            background-color: white;
+            color: #0d1117;
+        }
 
-    .close::before,
-    .close::after {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 18px;
-        height: 2px;
-        background-color: white;
-    }
+        /* --- фильтры --- */
+        .filters {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
 
-    .close::before {
-        transform: translate(-50%, -50%) rotate(45deg);   /* одна палочка по диагонали */
-    }
+        .filter-btn {
+            background-color: #0d1117;
+            color: rgba(255, 255, 255, 0.45);
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            border-radius: 25px;
+            padding: 6px 18px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+        }
 
-    .close::after {
-        transform: translate(-50%, -50%) rotate(-45deg);  /* вторая палочка по другой диагонали */
-    }
+        .filter-btn:hover {
+            border-color: rgba(255, 255, 255, 0.5);
+            color: white;
+        }
 
-  </style>
+        /* активный фильтр */
+        .filter-btn.active {
+            background-color: white;
+            color: #0d1117;
+            border-color: white;
+        }
+
+        .close {
+            width: 25px;
+            height: 25px;
+            margin-top: 8px;
+            margin-left: 2px;
+            filter: drop-shadow(0 0 2px black) drop-shadow(0 0 2px black);
+            position: relative;
+            cursor: pointer;
+            background: none;
+            border: none;
+            border-radius: 50%;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .close:hover {
+            background-color: white;
+        }
+
+        .close:hover::before,
+        .close:hover::after {
+            background-color: #0d1117;
+        }
+
+        .close::before,
+        .close::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 18px;
+            height: 2px;
+            background-color: white;
+        }
+
+        .close::before {
+            transform: translate(-50%, -50%) rotate(45deg);
+        }
+
+        .close::after {
+            transform: translate(-50%, -50%) rotate(-45deg);
+        }
+
+    </style>
 </head>
 <body>
 <div class="container">
-  <h1>To do list</h1>
-        <ul class="list"></ul>
-  <button class="btn">Добавить</button>
+    <h1>To do list</h1>
+
+    <div class="filters">
+        <button class="filter-btn active" data-filter="all">Все</button>
+        <button class="filter-btn" data-filter="done">Выполненные</button>
+    </div>
+
+    <ul class="list"></ul>
+    <button class="btn">Добавить</button>
 </div>
 
 <script src="index.js"></script>
